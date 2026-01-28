@@ -117,10 +117,9 @@ ingress:
   enabled: true
   className: "traefik" # Use "nginx" for nginx-ingress
   annotations:
-    # For Traefik (default in K3s)
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: "false"
-    # For cert-manager SSL
+    # For Traefik (default in K3s) - Using HTTP since Cloudflare handles SSL
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    # For cert-manager SSL (disabled - Cloudflare handles SSL)
     # cert-manager.io/cluster-issuer: letsencrypt-prod
   hosts:
     - host: mehmetatademir.com.tr
