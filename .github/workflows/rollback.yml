@@ -1,0 +1,78 @@
+# =============================================================
+# GitHub Actions - Portfolio Rollback
+# Manuel tetikleme ile eski versiyona dönüş
+# =============================================================
+
+name: Rollback Portfolio
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Hangi versiyona dönülsün? (örn: v1.0.0)'
+        required: true
+        type: string
+
+env:
+  REGISTRY: ghcr.io
+  FRONTEND_IMAGE: ghcr.io/${{ github.repository }}/frontend
+  BACKEND_IMAGE: ghcr.io/${{ github.repository }}/backend
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://mehmetatademir.com
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v3
+
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+          chmod 600 ~/.kube/config
+
+      - name: Show current state
+        run: |
+          echo "📊 Mevcut durum:"
+          kubectl get pods -n portfolio
+          echo ""
+          echo "📦 Mevcut image versiyonları:"
+          kubectl get deployment portfolio-frontend -n portfolio -o jsonpath='{.spec.template.spec.containers[0].image}' || true
+          echo ""
+          kubectl get deployment portfolio-backend -n portfolio -o jsonpath='{.spec.template.spec.containers[0].image}' || true
+          echo ""
+
+      - name: Rollback to version ${{ inputs.version }}
+        run: |
+          echo "⏪ ${{ inputs.version }} versiyonuna dönülüyor..."
+          
+          helm upgrade --install portfolio ./helm/portfolio \
+            -n portfolio \
+            --set global.imagePullSecrets[0].name=ghcr-auth \
+            --set frontend.image.repository=${{ env.FRONTEND_IMAGE }} \
+            --set frontend.image.tag=${{ inputs.version }} \
+            --set backend.image.repository=${{ env.BACKEND_IMAGE }} \
+            --set backend.image.tag=${{ inputs.version }} \
+            --atomic \
+            --timeout 5m
+
+      - name: Verify rollback
+        run: |
+          kubectl rollout status deployment/portfolio-frontend -n portfolio
+          kubectl rollout status deployment/portfolio-backend -n portfolio
+
+      - name: Show result
+        run: |
+          echo "✅ Rollback tamamlandı!"
+          echo "📦 Yeni versiyon: ${{ inputs.version }}"
+          echo ""
+          kubectl get pods -n portfolio
