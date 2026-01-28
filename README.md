@@ -1,4 +1,4 @@
-# mehmetatademir.com - DevOps Portfolio
+# mehmetatademir.com.tr - DevOps Portfolio
 
 A minimalist, dark-themed personal portfolio for a DevOps Engineer with Kubernetes/Helm deployment.
 

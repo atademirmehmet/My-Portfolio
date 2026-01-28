@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://mehmetatademir.com
+      url: https://mehmetatademir.com.tr
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
