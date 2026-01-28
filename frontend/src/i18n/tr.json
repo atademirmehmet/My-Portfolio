@@ -46,9 +46,9 @@
         },
         "portfolio": {
             "name": "Portfolio Websitesi",
-            "type": "Cloud Native Dağıtım",
+            "type": "GitOps Pipeline",
             "status": "Aktif",
-            "description": "Helm chart'ları ile Kubernetes (K3s) kullanılarak dağıtılan kişisel portfolio sitesi. Altyapı Terraform ile sağlanmış ve Ansible ile yapılandırılmıştır."
+            "description": "Uçtan uca DevOps pratiklerini sergileyen production-ready CI/CD pipeline. GitHub Actions ile Semantic Versioning kullanarak otomatik build ve deployment. Multi-stage Docker build'ler GHCR'a push edilmektedir. Özel Helm chart'ları ve ArgoCD GitOps sync ile Kubernetes (K3s) orkestrasyonu. Otomatik rollback ve kesintisiz deployment özellikleri içerir."
         }
     },
     "skills": {
