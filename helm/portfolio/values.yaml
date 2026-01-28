@@ -14,8 +14,8 @@ frontend:
   replicaCount: 1
 
   image:
-    repository: portfolio-frontend
-    tag: "latest"
+    repository: ghcr.io/atademirmehmet/my-portfolio/frontend
+    tag: "v1.1.1"
     pullPolicy: IfNotPresent
 
   service:
@@ -64,8 +64,8 @@ backend:
   replicaCount: 2
 
   image:
-    repository: portfolio-backend
-    tag: "latest"
+    repository: ghcr.io/atademirmehmet/my-portfolio/backend
+    tag: "v1.1.1"
     pullPolicy: IfNotPresent
 
   service:
