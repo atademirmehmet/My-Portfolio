@@ -9,14 +9,14 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Hangi versiyona dönülsün? (örn: v1.0.0)'
+        description: "Hangi versiyona dönülsün? (örn: v1.0.0)"
         required: true
         type: string
 
 env:
   REGISTRY: ghcr.io
-  FRONTEND_IMAGE: ghcr.io/${{ github.repository }}/frontend
-  BACKEND_IMAGE: ghcr.io/${{ github.repository }}/backend
+  FRONTEND_IMAGE: ghcr.io/${{ github.repository_owner }}/my-portfolio/frontend
+  BACKEND_IMAGE: ghcr.io/${{ github.repository_owner }}/my-portfolio/backend
 
 jobs:
   rollback:
@@ -54,7 +54,7 @@ jobs:
       - name: Rollback to version ${{ inputs.version }}
         run: |
           echo "⏪ ${{ inputs.version }} versiyonuna dönülüyor..."
-          
+
           helm upgrade --install portfolio ./helm/portfolio \
             -n portfolio \
             --set global.imagePullSecrets[0].name=ghcr-auth \
