@@ -1,13 +1,12 @@
 # =============================================================
 # GitHub Actions - Portfolio CI/CD with Semantic Versioning
 # Tetikleme: Git tag push (v1.0.0 formatında)
-# ArgoCD otomatik olarak deploy yapar
+# Build → Push → values.yaml güncelle → ArgoCD sync
 # =============================================================
 
 name: Build & Push Images
 
 on:
-  # Sadece v ile başlayan tag'lerde çalış
   push:
     tags:
       - "v*.*.*"
@@ -83,27 +82,51 @@ jobs:
             ${{ env.BACKEND_IMAGE }}:latest
 
   # =============================================================
-  # NOTIFY (ArgoCD otomatik sync edecek)
+  # UPDATE VALUES.YAML FOR ARGOCD
+  # ArgoCD Git'i izler, bu değişiklikle sync tetiklenir
   # =============================================================
-  notify:
+  update_manifest:
     needs: [build_frontend, build_backend]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Get version from tag
         id: version
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
+      - name: Update image tags in values.yaml
+        run: |
+          # Frontend tag güncelle
+          sed -i 's|repository: ghcr.io/atademirmehmet/my-portfolio/frontend|repository: ghcr.io/atademirmehmet/my-portfolio/frontend|' helm/portfolio/values.yaml
+          sed -i '/repository: ghcr.io\/atademirmehmet\/my-portfolio\/frontend/{n;s/tag: .*/tag: "${{ steps.version.outputs.VERSION }}"/}' helm/portfolio/values.yaml
+
+          # Backend tag güncelle
+          sed -i '/repository: ghcr.io\/atademirmehmet\/my-portfolio\/backend/{n;s/tag: .*/tag: "${{ steps.version.outputs.VERSION }}"/}' helm/portfolio/values.yaml
+
+      - name: Commit and push
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add helm/portfolio/values.yaml
+          git commit -m "chore: update image tags to ${{ steps.version.outputs.VERSION }} [skip ci]"
+          git push origin main
+
       - name: Summary
         run: |
-          echo "# 🚀 Build Tamamlandı!" >> $GITHUB_STEP_SUMMARY
+          echo "# 🚀 Build & Update Tamamlandı!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Versiyon:** ${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "## 📦 Image'lar Push Edildi:" >> $GITHUB_STEP_SUMMARY
-          echo "- \`${{ env.FRONTEND_IMAGE }}:${{ steps.version.outputs.VERSION }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- \`${{ env.FRONTEND_IMAGE }}:latest\`" >> $GITHUB_STEP_SUMMARY
-          echo "- \`${{ env.BACKEND_IMAGE }}:${{ steps.version.outputs.VERSION }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- \`${{ env.BACKEND_IMAGE }}:latest\`" >> $GITHUB_STEP_SUMMARY
+          echo "## 📦 Image'lar:" >> $GITHUB_STEP_SUMMARY
+          echo "- Frontend: \`${{ env.FRONTEND_IMAGE }}:${{ steps.version.outputs.VERSION }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Backend: \`${{ env.BACKEND_IMAGE }}:${{ steps.version.outputs.VERSION }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "## � ArgoCD" >> $GITHUB_STEP_SUMMARY
-          echo "ArgoCD otomatik olarak \`latest\` tag'ini algılayıp deploy edecek." >> $GITHUB_STEP_SUMMARY
+          echo "## 🔄 ArgoCD" >> $GITHUB_STEP_SUMMARY
+          echo "values.yaml güncellendi, ArgoCD otomatik sync edecek." >> $GITHUB_STEP_SUMMARY
