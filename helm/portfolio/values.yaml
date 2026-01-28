@@ -15,7 +15,7 @@ frontend:
 
   image:
     repository: ghcr.io/atademirmehmet/my-portfolio/frontend
-    tag: "latest"
+    tag: "v1.2.2"
     pullPolicy: IfNotPresent
 
   service:
@@ -65,7 +65,7 @@ backend:
 
   image:
     repository: ghcr.io/atademirmehmet/my-portfolio/backend
-    tag: "latest"
+    tag: "v1.2.2"
     pullPolicy: IfNotPresent
 
   service:
