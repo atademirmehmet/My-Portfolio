@@ -1,0 +1,21 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import Architecture from '../../components/Architecture.astro';
+import Projects from '../../components/Projects.astro';
+import Skills from '../../components/Skills.astro';
+import Footer from '../../components/Footer.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations('tr');
+---
+
+<Layout title={t.site.title} description={t.site.description} lang="tr">
+  <Header t={t} />
+  <Hero t={t} />
+  <Architecture t={t} />
+  <Projects t={t} />
+  <Skills t={t} />
+  <Footer t={t} />
+</Layout>

@@ -1,0 +1,105 @@
+{
+    "site": {
+        "title": "Mehmet Atademir | DevOps Mühendisi",
+        "description": "Infrastructure as Code, CI/CD Pipeline ve Cloud Native çözümlerinde uzmanlaşmış DevOps Mühendisi."
+    },
+    "nav": {
+        "architecture": "./mimari",
+        "projects": "./projeler",
+        "skills": "./yetenekler",
+        "contact": "./iletisim"
+    },
+    "hero": {
+        "terminal_command": "whoami",
+        "terminal_output": "mehmet.atademir",
+        "title": "Mehmet",
+        "title_highlight": "Atademir",
+        "subtitle": "DevOps Mühendisi",
+        "subtitle_tagline": "Görünmeyeni Otomatikleştirmek",
+        "description": "Odak noktam",
+        "desc_iac": "Kod Olarak Altyapı",
+        "desc_cicd": "CI/CD Pipeline'lar",
+        "desc_cloud": "Cloud Native Çözümler",
+        "btn_projects": "Projeleri Gör",
+        "btn_cv": "CV İndir",
+        "cv_tr": "Türkçe CV",
+        "cv_en": "İngilizce CV"
+    },
+    "architecture": {
+        "label": "// altyapi_tasarimi",
+        "title": "Mimari",
+        "description": "Uyguladığım tipik bir cloud-native dağıtım iş akışı.",
+        "workflow_desc": "Uçtan uca otomasyon: Git'e gönderilen kod",
+        "github_actions": "GitHub Actions",
+        "docker": "Docker",
+        "argocd": "ArgoCD",
+        "workflow_end": "ile Kubernetes kümesine senkronize olur ve tam gözlemlenebilirlik sağlar."
+    },
+    "projects": {
+        "label": "// one_cikan_projeler",
+        "title": "ls -la ./projeler",
+        "realapp": {
+            "name": "Realapp",
+            "type": "Mikroservis Blog",
+            "status": "Prodüksiyon",
+            "description": "Frontend (React) ve Backend (Python) olarak ayrılmış full-stack mikroservis mimarisi. Google Cloud Platform üzerinde Kubernetes (K3s) ile orkestre edilmiştir. Kalıcı volume yönetimi ve GitLab üzerinden otomatik CI/CD içerir."
+        },
+        "portfolio": {
+            "name": "Portfolio Websitesi",
+            "type": "Cloud Native Dağıtım",
+            "status": "Aktif",
+            "description": "Helm chart'ları ile Kubernetes (K3s) kullanılarak dağıtılan kişisel portfolio sitesi. Altyapı Terraform ile sağlanmış ve Ansible ile yapılandırılmıştır."
+        }
+    },
+    "skills": {
+        "label": "// yeteneklerim",
+        "title": "cat ~/.yetenekler",
+        "cloud": {
+            "title": "Cloud & Altyapı",
+            "items": [
+                "Google Cloud Platform",
+                "Microsoft Azure",
+                "IaaS / VPS",
+                "Linux (Ubuntu/Debian)"
+            ]
+        },
+        "containers": {
+            "title": "Konteynerler",
+            "items": [
+                "Docker",
+                "Kubernetes",
+                "Rancher",
+                "Helm"
+            ]
+        },
+        "cicd": {
+            "title": "CI/CD & IaC",
+            "items": [
+                "GitHub Actions",
+                "GitLab CI",
+                "ArgoCD",
+                "Terraform",
+                "Ansible"
+            ]
+        },
+        "monitoring": {
+            "title": "İzleme",
+            "items": [
+                "Prometheus",
+                "Grafana",
+                "Loki",
+                "AlertManager"
+            ]
+        }
+    },
+    "footer": {
+        "status_label": "Sistem Durumu:",
+        "status_value": "Çalışıyor",
+        "built_with": "Kullanılan teknolojiler:",
+        "and": "&"
+    },
+    "lang": {
+        "switch": "EN",
+        "switch_url": "/"
+    }
+}

@@ -1,0 +1,116 @@
+---
+interface Props {
+  t: any;
+}
+
+const { t } = Astro.props;
+
+const skillIcons = {
+  cloud: [
+    { icon: 'fab fa-google text-blue-400', name: 'Google Cloud Platform' },
+    { icon: 'fab fa-microsoft text-blue-500', name: 'Microsoft Azure' },
+    { icon: 'fas fa-server text-gray-400', name: 'IaaS / VPS' },
+    { icon: 'fab fa-linux text-yellow-400', name: 'Linux (Ubuntu/Debian)' }
+  ],
+  containers: [
+    { icon: 'fab fa-docker text-blue-400', name: 'Docker' },
+    { icon: 'fas fa-dharmachakra text-blue-300', name: 'Kubernetes' },
+    { icon: 'fas fa-cow text-cyan-400', name: 'Rancher' },
+    { icon: 'fas fa-anchor text-blue-400', name: 'Helm' }
+  ],
+  cicd: [
+    { icon: 'fab fa-github text-white', name: 'GitHub Actions' },
+    { icon: 'fab fa-gitlab text-orange-400', name: 'GitLab CI' },
+    { icon: 'fas fa-sync-alt text-cyan-400', name: 'ArgoCD' },
+    { icon: 'fas fa-cube text-purple-400', name: 'Terraform' },
+    { icon: 'fas fa-cogs text-red-400', name: 'Ansible' }
+  ],
+  monitoring: [
+    { icon: 'fas fa-fire text-orange-500', name: 'Prometheus' },
+    { icon: 'fas fa-chart-area text-yellow-400', name: 'Grafana' },
+    { icon: 'fas fa-scroll text-green-400', name: 'Loki' },
+    { icon: 'fas fa-bell text-red-400', name: 'AlertManager' }
+  ]
+};
+---
+
+<section id="skills" class="py-20 px-4">
+  <div class="max-w-6xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <span class="text-cyber-cyan font-mono text-sm">{t.skills.label}</span>
+      <h2 class="font-mono text-3xl sm:text-4xl font-bold text-white mt-2 mb-4">
+        <span class="text-cyber-green">cat</span> {t.skills.title}
+      </h2>
+    </div>
+
+    <!-- Tech Categories Grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <!-- Cloud & Infrastructure -->
+      <div class="bg-cyber-card rounded-xl p-6 border border-cyber-border hover:border-cyber-cyan/50 transition-colors">
+        <div class="flex items-center space-x-3 mb-4">
+          <i class="fas fa-cloud text-cyber-cyan text-2xl"></i>
+          <h3 class="font-mono text-lg font-semibold text-white">{t.skills.cloud.title}</h3>
+        </div>
+        <ul class="space-y-2">
+          {skillIcons.cloud.map((skill) => (
+            <li class="flex items-center space-x-2 text-gray-400 text-sm">
+              <i class={`${skill.icon} w-4`}></i>
+              <span>{skill.name}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Containerization -->
+      <div class="bg-cyber-card rounded-xl p-6 border border-cyber-border hover:border-cyber-green/50 transition-colors">
+        <div class="flex items-center space-x-3 mb-4">
+          <i class="fab fa-docker text-cyber-green text-2xl"></i>
+          <h3 class="font-mono text-lg font-semibold text-white">{t.skills.containers.title}</h3>
+        </div>
+        <ul class="space-y-2">
+          {skillIcons.containers.map((skill) => (
+            <li class="flex items-center space-x-2 text-gray-400 text-sm">
+              <i class={`${skill.icon} w-4`}></i>
+              <span>{skill.name}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- CI/CD & IaC -->
+      <div class="bg-cyber-card rounded-xl p-6 border border-cyber-border hover:border-cyber-purple/50 transition-colors">
+        <div class="flex items-center space-x-3 mb-4">
+          <i class="fas fa-infinity text-cyber-purple text-2xl"></i>
+          <h3 class="font-mono text-lg font-semibold text-white">{t.skills.cicd.title}</h3>
+        </div>
+        <ul class="space-y-2">
+          {skillIcons.cicd.map((skill) => (
+            <li class="flex items-center space-x-2 text-gray-400 text-sm">
+              <i class={`${skill.icon} w-4`}></i>
+              <span>{skill.name}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Monitoring -->
+      <div class="bg-cyber-card rounded-xl p-6 border border-cyber-border hover:border-cyber-pink/50 transition-colors">
+        <div class="flex items-center space-x-3 mb-4">
+          <i class="fas fa-chart-line text-cyber-pink text-2xl"></i>
+          <h3 class="font-mono text-lg font-semibold text-white">{t.skills.monitoring.title}</h3>
+        </div>
+        <ul class="space-y-2">
+          {skillIcons.monitoring.map((skill) => (
+            <li class="flex items-center space-x-2 text-gray-400 text-sm">
+              <i class={`${skill.icon} w-4`}></i>
+              <span>{skill.name}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>

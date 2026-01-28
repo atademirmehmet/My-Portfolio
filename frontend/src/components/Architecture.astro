@@ -1,0 +1,58 @@
+---
+interface Props {
+  t: any;
+}
+
+const { t } = Astro.props;
+---
+
+<section id="architecture" class="py-20 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <span class="text-cyber-green font-mono text-sm">{t.architecture.label}</span>
+      <h2 class="font-mono text-3xl sm:text-4xl font-bold text-white mt-2 mb-4">
+        <span class="text-cyber-cyan">&lt;</span>{t.architecture.title}<span class="text-cyber-cyan">/&gt;</span>
+      </h2>
+      <p class="text-gray-400 max-w-xl mx-auto">{t.architecture.description}</p>
+    </div>
+
+    <!-- Mermaid Diagram Container -->
+    <div class="bg-cyber-card rounded-xl border border-cyber-border p-6 mb-6">
+      <div class="mermaid">
+        graph LR
+        A[👨‍💻 Developer] --> B[📦 Git Push]
+        B --> C[🔄 GitHub Actions<br />CI/CD Pipeline]
+        C --> D[🐳 Docker Build<br />Container Registry]
+        D --> E[☸️ ArgoCD<br />GitOps Sync]
+        E --> F[🚀 Kubernetes<br />K3s Cluster]
+        F --> G[📊 Monitoring<br />Prometheus + Grafana]
+
+        style A fill:#1e293b,stroke:#00f5ff,color:#fff
+        style B fill:#1e293b,stroke:#f59e0b,color:#fff
+        style C fill:#1e293b,stroke:#00ff88,color:#fff
+        style D fill:#1e293b,stroke:#0ea5e9,color:#fff
+        style E fill:#1e293b,stroke:#a855f7,color:#fff
+        style F fill:#1e293b,stroke:#10b981,color:#fff
+        style G fill:#1e293b,stroke:#f472b6,color:#fff
+      </div>
+    </div>
+
+    <!-- Architecture Details -->
+    <div class="bg-cyber-card/50 rounded-lg border border-cyber-border p-4 font-mono text-sm">
+      <div class="flex items-start space-x-3">
+        <i class="fas fa-terminal text-cyber-cyan mt-1"></i>
+        <div>
+          <span class="text-gray-400">$</span>
+          <span class="text-white"> cat</span>
+          <span class="text-cyber-green"> workflow.txt</span>
+          <p class="text-gray-400 mt-2 font-sans">
+            {t.architecture.workflow_desc} <span class="text-cyber-cyan">{t.architecture.github_actions}</span>,
+            builds <span class="text-cyber-green">{t.architecture.docker}</span> images, and 
+            <span class="text-cyber-purple">{t.architecture.argocd}</span> {t.architecture.workflow_end}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

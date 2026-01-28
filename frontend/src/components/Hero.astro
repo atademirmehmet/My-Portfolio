@@ -1,0 +1,77 @@
+---
+interface Props {
+  t: any;
+}
+
+const { t } = Astro.props;
+---
+
+<section class="min-h-screen flex items-center justify-center pt-16 px-4">
+  <div class="max-w-4xl mx-auto text-center">
+    <!-- Terminal-style intro -->
+    <div class="mb-8 inline-block">
+      <div class="bg-cyber-card rounded-lg border border-cyber-border p-1 inline-block">
+        <div class="flex items-center space-x-2 px-3 py-1 border-b border-cyber-border">
+          <span class="w-3 h-3 rounded-full bg-red-500"></span>
+          <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+          <span class="w-3 h-3 rounded-full bg-green-500"></span>
+          <span class="text-gray-500 text-xs font-mono ml-2">terminal</span>
+        </div>
+        <div class="p-4 font-mono text-sm text-left">
+          <span class="text-cyber-green">➜</span>
+          <span class="text-cyber-purple">~</span>
+          <span class="text-white">{t.hero.terminal_command}</span>
+          <br>
+          <span class="text-cyber-cyan">{t.hero.terminal_output}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Name & Title -->
+    <h1 class="font-mono text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight">
+      {t.hero.title} <span class="gradient-text">{t.hero.title_highlight}</span>
+    </h1>
+    <h2 class="font-mono text-xl sm:text-2xl text-cyber-cyan mb-6">
+      {t.hero.subtitle} <span class="text-gray-500">|</span> <span class="text-cyber-green">{t.hero.subtitle_tagline}</span>
+    </h2>
+    <p class="text-gray-400 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+      {t.hero.description} <span class="text-cyber-cyan">{t.hero.desc_iac}</span>,
+      <span class="text-cyber-green">{t.hero.desc_cicd}</span>, and
+      <span class="text-cyber-purple">{t.hero.desc_cloud}</span>.
+    </p>
+
+    <!-- CTA Buttons -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#projects" class="group relative px-8 py-3 bg-cyber-cyan/10 border border-cyber-cyan text-cyber-cyan font-mono rounded-lg overflow-hidden transition-all duration-300 hover:bg-cyber-cyan hover:text-cyber-dark animate-pulse-glow">
+        <span class="relative z-10 flex items-center space-x-2">
+          <i class="fas fa-folder-open"></i>
+          <span>{t.hero.btn_projects}</span>
+        </span>
+      </a>
+      <!-- CV Download Dropdown -->
+      <div class="relative group">
+        <button class="px-8 py-3 bg-transparent border border-gray-600 text-gray-400 font-mono rounded-lg transition-all duration-300 hover:border-cyber-green hover:text-cyber-green flex items-center space-x-2">
+          <i class="fas fa-download"></i>
+          <span>{t.hero.btn_cv}</span>
+          <i class="fas fa-chevron-down text-xs ml-1"></i>
+        </button>
+        <!-- Dropdown Menu -->
+        <div class="absolute top-full left-0 mt-2 w-full bg-cyber-card border border-cyber-border rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+          <a href="/assets/cv/mehmet_atademir_cv_tr.pdf" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 px-4 py-3 text-gray-400 hover:text-cyber-green hover:bg-cyber-border/50 rounded-t-lg transition-colors">
+            <span class="text-lg">🇹🇷</span>
+            <span class="font-mono text-sm">{t.hero.cv_tr}</span>
+          </a>
+          <a href="/assets/cv/mehmet_atademir_cv_en.pdf" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 px-4 py-3 text-gray-400 hover:text-cyber-green hover:bg-cyber-border/50 rounded-b-lg transition-colors border-t border-cyber-border">
+            <span class="text-lg">🇬🇧</span>
+            <span class="font-mono text-sm">{t.hero.cv_en}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block">
+      <i class="fas fa-chevron-down text-cyber-cyan/50 text-2xl"></i>
+    </div>
+  </div>
+</section>

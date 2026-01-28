@@ -1,0 +1,166 @@
+# Default values for portfolio helm chart
+# This is a YAML-formatted file.
+
+# -- Global configuration
+global:
+  # Container registry (e.g., docker.io, ghcr.io, your-registry.com)
+  imageRegistry: ""
+  # Image pull secrets
+  imagePullSecrets: []
+
+# -- Frontend configuration (Nginx serving static HTML)
+frontend:
+  enabled: true
+  replicaCount: 2
+  
+  image:
+    repository: portfolio-frontend
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: LoadBalancer
+    port: 80
+    # loadBalancerIP: ""  # Optional: set static IP if needed
+  
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+  
+  # Health check configuration
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 80
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: 80
+    initialDelaySeconds: 5
+    periodSeconds: 5
+  
+  # Pod annotations
+  podAnnotations: {}
+  
+  # Node selector
+  nodeSelector: {}
+  
+  # Tolerations
+  tolerations: []
+  
+  # Affinity rules
+  affinity: {}
+
+# -- Backend configuration (Node.js API)
+backend:
+  enabled: true
+  replicaCount: 2
+  
+  image:
+    repository: portfolio-backend
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: ClusterIP
+    port: 5000
+  
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  
+  # Environment variables
+  env:
+    NODE_ENV: production
+    APP_VERSION: "1.0.0"
+  
+  # Health check configuration
+  livenessProbe:
+    httpGet:
+      path: /api/health
+      port: 5000
+    initialDelaySeconds: 10
+    periodSeconds: 15
+  
+  readinessProbe:
+    httpGet:
+      path: /api/ready
+      port: 5000
+    initialDelaySeconds: 5
+    periodSeconds: 5
+  
+  # Pod annotations
+  podAnnotations: {}
+  
+  # Node selector
+  nodeSelector: {}
+  
+  # Tolerations
+  tolerations: []
+  
+  # Affinity rules
+  affinity: {}
+
+# -- Ingress configuration
+ingress:
+  enabled: true
+  className: "traefik"  # Use "nginx" for nginx-ingress
+  annotations:
+    # For Traefik (default in K3s)
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    # For cert-manager SSL
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: mehmetatademir.com
+      paths:
+        - path: /
+          pathType: Prefix
+          service: frontend
+        - path: /api
+          pathType: Prefix
+          service: backend
+    - host: www.mehmetatademir.com
+      paths:
+        - path: /
+          pathType: Prefix
+          service: frontend
+        - path: /api
+          pathType: Prefix
+          service: backend
+  tls:
+    - secretName: portfolio-tls
+      hosts:
+        - mehmetatademir.com
+        - www.mehmetatademir.com
+
+# -- Service Account
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+# -- Pod Security Context
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  fsGroup: 1001
+
+# -- Container Security Context
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop:
+      - ALL

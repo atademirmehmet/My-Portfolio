@@ -1,0 +1,54 @@
+---
+interface Props {
+  t: any;
+}
+
+const { t } = Astro.props;
+---
+
+<footer id="contact" class="py-12 px-4 bg-cyber-darker border-t border-cyber-border">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <!-- Logo & Status -->
+      <div class="flex flex-col items-center md:items-start space-y-2">
+        <div class="flex items-center space-x-2">
+          <span class="text-cyber-cyan font-mono">$</span>
+          <span class="font-mono text-white font-semibold">mehmet<span class="text-cyber-green">@</span>atademir</span>
+        </div>
+        <div class="flex items-center space-x-2 text-sm">
+          <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+          <span class="text-gray-400">{t.footer.status_label}</span>
+          <span class="text-cyber-green font-mono">{t.footer.status_value}</span>
+        </div>
+      </div>
+
+      <!-- Social Links -->
+      <div class="flex items-center space-x-6">
+        <a href="https://github.com/atademirmehmet" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors text-xl">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://gitlab.com/atademirmehmet" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-orange-400 transition-colors text-xl">
+          <i class="fab fa-gitlab"></i>
+        </a>
+        <a href="https://linkedin.com/in/mehmet-atademir" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-blue-400 transition-colors text-xl">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="mailto:atademirmehmet@gmail.com" class="text-gray-400 hover:text-cyber-cyan transition-colors text-xl">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+
+      <!-- Copyright -->
+      <div class="text-center md:text-right">
+        <p class="text-gray-500 text-sm font-mono">
+          &copy; <span id="current-year"></span> Mehmet Atademir
+        </p>
+        <p class="text-gray-600 text-xs mt-1">
+          {t.footer.built_with} <span class="text-cyber-cyan">Astro</span> {t.footer.and} <span class="text-cyber-green">TailwindCSS</span>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</footer>

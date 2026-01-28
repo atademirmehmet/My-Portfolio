@@ -1,0 +1,105 @@
+{
+    "site": {
+        "title": "Mehmet Atademir | DevOps Engineer",
+        "description": "DevOps Engineer specializing in Infrastructure as Code, CI/CD Pipelines, and Cloud Native Solutions."
+    },
+    "nav": {
+        "architecture": "./architecture",
+        "projects": "./projects",
+        "skills": "./skills",
+        "contact": "./contact"
+    },
+    "hero": {
+        "terminal_command": "whoami",
+        "terminal_output": "mehmet.atademir",
+        "title": "Mehmet",
+        "title_highlight": "Atademir",
+        "subtitle": "DevOps Engineer",
+        "subtitle_tagline": "Automating the Unseen",
+        "description": "Focused on",
+        "desc_iac": "Infrastructure as Code",
+        "desc_cicd": "CI/CD Pipelines",
+        "desc_cloud": "Cloud Native Solutions",
+        "btn_projects": "View Projects",
+        "btn_cv": "Download CV",
+        "cv_tr": "Turkish CV",
+        "cv_en": "English CV"
+    },
+    "architecture": {
+        "label": "// infrastructure_design",
+        "title": "Architecture",
+        "description": "A typical cloud-native deployment workflow I implement.",
+        "workflow_desc": "End-to-end automation: Code pushed to Git triggers",
+        "github_actions": "GitHub Actions",
+        "docker": "Docker",
+        "argocd": "ArgoCD",
+        "workflow_end": "syncs to Kubernetes clusters with full observability stack."
+    },
+    "projects": {
+        "label": "// featured_projects",
+        "title": "ls -la ./projects",
+        "realapp": {
+            "name": "Realapp",
+            "type": "Microservices Blog",
+            "status": "Production",
+            "description": "A full-stack microservice architecture split into Frontend (React) and Backend (Python). Orchestrated with Kubernetes (K3s) on Google Cloud Platform. Features persistent volume management and automated CI/CD via GitLab."
+        },
+        "portfolio": {
+            "name": "Portfolio Website",
+            "type": "Cloud Native Deployment",
+            "status": "Active",
+            "description": "Personal portfolio site deployed using Kubernetes (K3s) with Helm charts. Infrastructure provisioned via Terraform and configured with Ansible."
+        }
+    },
+    "skills": {
+        "label": "// my_skills",
+        "title": "cat ~/.skills",
+        "cloud": {
+            "title": "Cloud & Infra",
+            "items": [
+                "Google Cloud Platform",
+                "Microsoft Azure",
+                "IaaS / VPS",
+                "Linux (Ubuntu/Debian)"
+            ]
+        },
+        "containers": {
+            "title": "Containers",
+            "items": [
+                "Docker",
+                "Kubernetes",
+                "Rancher",
+                "Helm"
+            ]
+        },
+        "cicd": {
+            "title": "CI/CD & IaC",
+            "items": [
+                "GitHub Actions",
+                "GitLab CI",
+                "ArgoCD",
+                "Terraform",
+                "Ansible"
+            ]
+        },
+        "monitoring": {
+            "title": "Monitoring",
+            "items": [
+                "Prometheus",
+                "Grafana",
+                "Loki",
+                "AlertManager"
+            ]
+        }
+    },
+    "footer": {
+        "status_label": "System Status:",
+        "status_value": "Operational",
+        "built_with": "Built with",
+        "and": "&"
+    },
+    "lang": {
+        "switch": "TR",
+        "switch_url": "/tr"
+    }
+}

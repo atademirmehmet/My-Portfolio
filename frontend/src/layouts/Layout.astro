@@ -1,0 +1,153 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  lang?: string;
+}
+
+const { title, description, lang = 'en' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={lang} class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content={description}>
+  <meta name="keywords" content="DevOps, Cloud, Kubernetes, Docker, CI/CD, Infrastructure as Code">
+  <meta name="author" content="Mehmet Atademir">
+  <title>{title}</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Mermaid.js -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+
+<body class="bg-cyber-dark text-gray-300 font-sans min-h-screen grid-bg">
+  <slot />
+
+  <script>
+    // Initialize Mermaid
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#1e293b',
+        primaryTextColor: '#fff',
+        primaryBorderColor: '#00f5ff',
+        lineColor: '#00f5ff',
+        secondaryColor: '#0a0e17',
+        tertiaryColor: '#111827'
+      }
+    });
+
+    // Set current year
+    const yearElement = document.getElementById('current-year');
+    if (yearElement) {
+      yearElement.textContent = new Date().getFullYear().toString();
+    }
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        const icon = mobileMenuBtn.querySelector('i');
+        if (icon) {
+          icon.classList.toggle('fa-bars');
+          icon.classList.toggle('fa-times');
+        }
+      });
+
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+          const icon = mobileMenuBtn.querySelector('i');
+          if (icon) {
+            icon.classList.add('fa-bars');
+            icon.classList.remove('fa-times');
+          }
+        });
+      });
+    }
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+        if (href) {
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    });
+  </script>
+
+  <style is:global>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0a0e17; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #00f5ff; }
+
+    /* Mermaid diagram styling */
+    .mermaid { background: transparent !important; }
+
+    /* Cursor effect */
+    .cursor::after {
+      content: '▋';
+      animation: blink 1s step-end infinite;
+      color: #00f5ff;
+    }
+
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, #00f5ff 0%, #00ff88 50%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Card hover effects */
+    .project-card {
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+    }
+    .project-card:hover {
+      border-color: #00f5ff;
+      box-shadow: 0 0 30px rgba(0, 245, 255, 0.2);
+      transform: translateY(-5px);
+    }
+
+    /* Tech badge styling */
+    .tech-badge { transition: all 0.2s ease; }
+    .tech-badge:hover { background: rgba(0, 245, 255, 0.2); color: #00f5ff; }
+
+    /* Glow effect on links */
+    .glow-link { transition: all 0.3s ease; }
+    .glow-link:hover { text-shadow: 0 0 10px currentColor; }
+
+    /* Grid pattern background */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+
+    @keyframes blink { 50% { border-color: transparent; } }
+  </style>
+</body>
+</html>
