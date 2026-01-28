@@ -1,0 +1,33 @@
+# ArgoCD Application Manifest
+# Bu dosya ArgoCD'ye "hangi repo'dan, hangi Helm chart'ı, nereye deploy et" der
+
+apiVersion: argoproj.io/v1alpha1 # ArgoCD API versiyonu
+kind: Application # Kaynak tipi: ArgoCD Application
+metadata:
+  name: portfolio # Application adı (ArgoCD UI'da görünecek)
+  namespace: argocd # ArgoCD'nin çalıştığı namespace (her zaman argocd)
+spec:
+  # Hangi ArgoCD projesine ait (default = varsayılan proje)
+  project: default
+
+  # KAYNAK: Nereden deploy edilecek?
+  source:
+    repoURL: https://github.com/atademirmehmet/My-Portfolio.git # Git repo URL'i
+    targetRevision: HEAD # Hangi branch/tag (HEAD = en son commit)
+    path: helm/portfolio # Repo içinde Helm chart'ın yolu
+    helm:
+      valueFiles:
+        - values.yaml # Kullanılacak values dosyası
+
+  # HEDEF: Nereye deploy edilecek?
+  destination:
+    server: https://kubernetes.default.svc # Kubernetes cluster (local cluster)
+    namespace: portfolio # Deploy edilecek namespace
+
+  # SYNC POLİTİKASI: Otomatik mi manuel mi?
+  syncPolicy:
+    automated: # Otomatik sync aktif
+      prune: true # Git'te silinen kaynakları cluster'dan da sil
+      selfHeal: true # Cluster'da manuel değişiklik yapılırsa Git'e geri dön
+    syncOptions:
+      - CreateNamespace=true # Namespace yoksa oluştur
