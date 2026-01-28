@@ -139,11 +139,12 @@ ingress:
         - path: /api
           pathType: Prefix
           service: backend
-  tls:
-    - secretName: portfolio-tls
-      hosts:
-        - mehmetatademir.com.tr
-        - www.mehmetatademir.com.tr
+  # TLS disabled - Cloudflare handles SSL (Flexible mode)
+  tls: []
+  #  - secretName: portfolio-tls
+  #    hosts:
+  #      - mehmetatademir.com.tr
+  #      - www.mehmetatademir.com.tr
 
 # -- Service Account
 serviceAccount:
