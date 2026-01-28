@@ -1,9 +1,10 @@
 # =============================================================
 # GitHub Actions - Portfolio CI/CD with Semantic Versioning
 # Tetikleme: Git tag push (v1.0.0 formatında)
+# ArgoCD otomatik olarak deploy yapar
 # =============================================================
 
-name: Deploy Portfolio
+name: Build & Push Images
 
 on:
   # Sadece v ile başlayan tag'lerde çalış
@@ -18,7 +19,7 @@ env:
 
 jobs:
   # =============================================================
-  # BUILD STAGE
+  # BUILD FRONTEND
   # =============================================================
   build_frontend:
     runs-on: ubuntu-latest
@@ -49,6 +50,9 @@ jobs:
             ${{ env.FRONTEND_IMAGE }}:${{ steps.version.outputs.VERSION }}
             ${{ env.FRONTEND_IMAGE }}:latest
 
+  # =============================================================
+  # BUILD BACKEND
+  # =============================================================
   build_backend:
     runs-on: ubuntu-latest
     permissions:
@@ -79,66 +83,27 @@ jobs:
             ${{ env.BACKEND_IMAGE }}:latest
 
   # =============================================================
-  # DEPLOY STAGE
+  # NOTIFY (ArgoCD otomatik sync edecek)
   # =============================================================
-  deploy_production:
+  notify:
     needs: [build_frontend, build_backend]
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://mehmetatademir.com.tr
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Get version from tag
         id: version
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
-      - name: Setup kubectl
-        uses: azure/setup-kubectl@v3
-
-      - name: Setup Helm
-        uses: azure/setup-helm@v3
-
-      - name: Configure kubeconfig
+      - name: Summary
         run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
-          chmod 600 ~/.kube/config
-
-      - name: Create namespace
-        run: kubectl create namespace portfolio --dry-run=client -o yaml | kubectl apply -f -
-
-      - name: Create registry secret
-        run: |
-          kubectl create secret docker-registry ghcr-auth \
-            --docker-server=${{ env.REGISTRY }} \
-            --docker-username=${{ github.actor }} \
-            --docker-password=${{ secrets.GHCR_TOKEN }} \
-            -n portfolio --dry-run=client -o yaml | kubectl apply -f -
-
-      - name: Deploy with Helm
-        run: |
-          helm upgrade --install portfolio ./helm/portfolio \
-            -n portfolio \
-            --set global.imagePullSecrets[0].name=ghcr-auth \
-            --set frontend.image.repository=${{ env.FRONTEND_IMAGE }} \
-            --set frontend.image.tag=${{ steps.version.outputs.VERSION }} \
-            --set backend.image.repository=${{ env.BACKEND_IMAGE }} \
-            --set backend.image.tag=${{ steps.version.outputs.VERSION }} \
-            --timeout 10m \
-            --wait=false
-
-      - name: Verify deployment
-        run: |
-          kubectl rollout status deployment/portfolio-frontend -n portfolio
-          kubectl rollout status deployment/portfolio-backend -n portfolio
-
-      - name: Show result
-        run: |
-          echo "✅ Deployment tamamlandı!"
-          echo "📦 Versiyon: ${{ steps.version.outputs.VERSION }}"
-          echo ""
-          kubectl get pods -n portfolio
-          kubectl get svc -n portfolio
+          echo "# 🚀 Build Tamamlandı!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Versiyon:** ${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📦 Image'lar Push Edildi:" >> $GITHUB_STEP_SUMMARY
+          echo "- \`${{ env.FRONTEND_IMAGE }}:${{ steps.version.outputs.VERSION }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`${{ env.FRONTEND_IMAGE }}:latest\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`${{ env.BACKEND_IMAGE }}:${{ steps.version.outputs.VERSION }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`${{ env.BACKEND_IMAGE }}:latest\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## � ArgoCD" >> $GITHUB_STEP_SUMMARY
+          echo "ArgoCD otomatik olarak \`latest\` tag'ini algılayıp deploy edecek." >> $GITHUB_STEP_SUMMARY
