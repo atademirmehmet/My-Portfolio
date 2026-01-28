@@ -6,17 +6,16 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# Stage 2: Nginx
-FROM nginx:alpine
+# Stage 2: Nginx (unprivileged for non-root)
+FROM nginxinc/nginx-unprivileged:alpine
 
-# Remove default nginx config
-RUN rm /etc/nginx/conf.d/default.conf
-
-# Copy nginx config from build context
+# Copy nginx config
 COPY --from=build /app/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy built files
 COPY --from=build /app/dist /usr/share/nginx/html
 
-EXPOSE 80
+# nginx-unprivileged runs on port 8080 by default
+EXPOSE 8080
+
 CMD ["nginx", "-g", "daemon off;"]
