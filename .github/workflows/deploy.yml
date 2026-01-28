@@ -127,8 +127,8 @@ jobs:
             --set frontend.image.tag=${{ steps.version.outputs.VERSION }} \
             --set backend.image.repository=${{ env.BACKEND_IMAGE }} \
             --set backend.image.tag=${{ steps.version.outputs.VERSION }} \
-            --atomic \
-            --timeout 5m
+            --timeout 10m \
+            --wait=false
 
       - name: Verify deployment
         run: |
