@@ -119,7 +119,7 @@ ingress:
   annotations:
     # For Traefik (default in K3s)
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.tls: "false"
     # For cert-manager SSL
     # cert-manager.io/cluster-issuer: letsencrypt-prod
   hosts:
