@@ -19,9 +19,9 @@ frontend:
     pullPolicy: IfNotPresent
 
   service:
-    type: LoadBalancer
+    type: ClusterIP
     port: 80
-    # loadBalancerIP: ""  # Optional: set static IP if needed
+    targetPort: 8080 # Container listens on 8080 (non-root can't bind to 80)
 
   resources:
     limits:
